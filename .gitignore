@@ -1,0 +1,13 @@
+*~
+*.d
+*.o
+*.lo
+*.a
+*.so
+*.so.*
+*.out
+*.pyc
+*.kate-swp
+core*
+build
+
