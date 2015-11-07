@@ -7,7 +7,7 @@ import struct
 import ode1.msg
 
 class ODESetConfig2Request(genpy.Message):
-  _md5sum = "22c7858ab20fbc5a173d39eaca55b565"
+  _md5sum = "eaeec6c9002faeb3183ab895e35f753a"
   _type = "ode1/ODESetConfig2Request"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """ode1/ODEConfig2 config
@@ -29,7 +29,9 @@ float64 GBaseLenY
 float64 GBaseLenZ
 float64 GripLenY
 float64 GripLenZ
+
 int32 ObjectMode
+
 float64 Box1PosX
 float64 Box1PosY
 float64 Box1SizeX
@@ -37,6 +39,31 @@ float64 Box1SizeY
 float64 Box1SizeZ
 float64 Box1Density1
 float64 Box1Density2
+
+float64 Chair1PosX
+float64 Chair1PosY
+float64 Chair1BaseRad
+float64 Chair1BaseLen
+float64 Chair1Caster1Rad
+float64 Chair1Caster2Rad
+float64 Chair1Caster3Rad
+float64 Chair1Caster4Rad
+float64 Chair1CasterDX
+float64 Chair1CasterDY
+float64 Chair1Seat1Density
+float64 Chair1Seat1DX
+float64 Chair1Seat1DY
+float64 Chair1Seat1SizeX
+float64 Chair1Seat1SizeY
+float64 Chair1Seat1SizeZ
+float64 Chair1Seat2Density
+float64 Chair1Seat2DX
+float64 Chair1Seat2DY
+float64 Chair1Seat2SizeX
+float64 Chair1Seat2SizeY
+float64 Chair1Seat2SizeZ
+float64 Chair1Damping
+
 float64 TimeStep
 float64 Gravity
 bool EnableKeyEvent
@@ -83,7 +110,7 @@ int32 ControlMode
     """
     try:
       _x = self
-      buff.write(_struct_idB12di9dB2di.pack(_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode))
+      buff.write(_struct_idB12di32dB2di.pack(_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.Chair1PosX, _x.config.Chair1PosY, _x.config.Chair1BaseRad, _x.config.Chair1BaseLen, _x.config.Chair1Caster1Rad, _x.config.Chair1Caster2Rad, _x.config.Chair1Caster3Rad, _x.config.Chair1Caster4Rad, _x.config.Chair1CasterDX, _x.config.Chair1CasterDY, _x.config.Chair1Seat1Density, _x.config.Chair1Seat1DX, _x.config.Chair1Seat1DY, _x.config.Chair1Seat1SizeX, _x.config.Chair1Seat1SizeY, _x.config.Chair1Seat1SizeZ, _x.config.Chair1Seat2Density, _x.config.Chair1Seat2DX, _x.config.Chair1Seat2DY, _x.config.Chair1Seat2SizeX, _x.config.Chair1Seat2SizeY, _x.config.Chair1Seat2SizeZ, _x.config.Chair1Damping, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -98,8 +125,8 @@ int32 ControlMode
       end = 0
       _x = self
       start = end
-      end += 206
-      (_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode,) = _struct_idB12di9dB2di.unpack(str[start:end])
+      end += 390
+      (_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.Chair1PosX, _x.config.Chair1PosY, _x.config.Chair1BaseRad, _x.config.Chair1BaseLen, _x.config.Chair1Caster1Rad, _x.config.Chair1Caster2Rad, _x.config.Chair1Caster3Rad, _x.config.Chair1Caster4Rad, _x.config.Chair1CasterDX, _x.config.Chair1CasterDY, _x.config.Chair1Seat1Density, _x.config.Chair1Seat1DX, _x.config.Chair1Seat1DY, _x.config.Chair1Seat1SizeX, _x.config.Chair1Seat1SizeY, _x.config.Chair1Seat1SizeZ, _x.config.Chair1Seat2Density, _x.config.Chair1Seat2DX, _x.config.Chair1Seat2DY, _x.config.Chair1Seat2SizeX, _x.config.Chair1Seat2SizeY, _x.config.Chair1Seat2SizeZ, _x.config.Chair1Damping, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode,) = _struct_idB12di32dB2di.unpack(str[start:end])
       self.config.FixedBase = bool(self.config.FixedBase)
       self.config.EnableKeyEvent = bool(self.config.EnableKeyEvent)
       return self
@@ -115,7 +142,7 @@ int32 ControlMode
     """
     try:
       _x = self
-      buff.write(_struct_idB12di9dB2di.pack(_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode))
+      buff.write(_struct_idB12di32dB2di.pack(_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.Chair1PosX, _x.config.Chair1PosY, _x.config.Chair1BaseRad, _x.config.Chair1BaseLen, _x.config.Chair1Caster1Rad, _x.config.Chair1Caster2Rad, _x.config.Chair1Caster3Rad, _x.config.Chair1Caster4Rad, _x.config.Chair1CasterDX, _x.config.Chair1CasterDY, _x.config.Chair1Seat1Density, _x.config.Chair1Seat1DX, _x.config.Chair1Seat1DY, _x.config.Chair1Seat1SizeX, _x.config.Chair1Seat1SizeY, _x.config.Chair1Seat1SizeZ, _x.config.Chair1Seat2Density, _x.config.Chair1Seat2DX, _x.config.Chair1Seat2DY, _x.config.Chair1Seat2SizeX, _x.config.Chair1Seat2SizeY, _x.config.Chair1Seat2SizeZ, _x.config.Chair1Damping, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -131,8 +158,8 @@ int32 ControlMode
       end = 0
       _x = self
       start = end
-      end += 206
-      (_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode,) = _struct_idB12di9dB2di.unpack(str[start:end])
+      end += 390
+      (_x.config.MaxContacts, _x.config.JointNum, _x.config.FixedBase, _x.config.TotalArmLen, _x.config.LinkRad, _x.config.FSThick, _x.config.FSSize, _x.config.BaseLenX, _x.config.BaseLenY, _x.config.BaseLenZ, _x.config.GBaseLenX, _x.config.GBaseLenY, _x.config.GBaseLenZ, _x.config.GripLenY, _x.config.GripLenZ, _x.config.ObjectMode, _x.config.Box1PosX, _x.config.Box1PosY, _x.config.Box1SizeX, _x.config.Box1SizeY, _x.config.Box1SizeZ, _x.config.Box1Density1, _x.config.Box1Density2, _x.config.Chair1PosX, _x.config.Chair1PosY, _x.config.Chair1BaseRad, _x.config.Chair1BaseLen, _x.config.Chair1Caster1Rad, _x.config.Chair1Caster2Rad, _x.config.Chair1Caster3Rad, _x.config.Chair1Caster4Rad, _x.config.Chair1CasterDX, _x.config.Chair1CasterDY, _x.config.Chair1Seat1Density, _x.config.Chair1Seat1DX, _x.config.Chair1Seat1DY, _x.config.Chair1Seat1SizeX, _x.config.Chair1Seat1SizeY, _x.config.Chair1Seat1SizeZ, _x.config.Chair1Seat2Density, _x.config.Chair1Seat2DX, _x.config.Chair1Seat2DY, _x.config.Chair1Seat2SizeX, _x.config.Chair1Seat2SizeY, _x.config.Chair1Seat2SizeZ, _x.config.Chair1Damping, _x.config.TimeStep, _x.config.Gravity, _x.config.EnableKeyEvent, _x.config.HingeFMax, _x.config.SliderFMax, _x.config.ControlMode,) = _struct_idB12di32dB2di.unpack(str[start:end])
       self.config.FixedBase = bool(self.config.FixedBase)
       self.config.EnableKeyEvent = bool(self.config.EnableKeyEvent)
       return self
@@ -140,7 +167,7 @@ int32 ControlMode
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_idB12di9dB2di = struct.Struct("<idB12di9dB2di")
+_struct_idB12di32dB2di = struct.Struct("<idB12di32dB2di")
 """autogenerated by genpy from ode1/ODESetConfig2Response.msg. Do not edit."""
 import sys
 python3 = True if sys.hexversion > 0x03000000 else False
@@ -229,6 +256,6 @@ class ODESetConfig2Response(genpy.Message):
 _struct_I = genpy.struct_I
 class ODESetConfig2(object):
   _type          = 'ode1/ODESetConfig2'
-  _md5sum = '22c7858ab20fbc5a173d39eaca55b565'
+  _md5sum = 'eaeec6c9002faeb3183ab895e35f753a'
   _request_class  = ODESetConfig2Request
   _response_class = ODESetConfig2Response

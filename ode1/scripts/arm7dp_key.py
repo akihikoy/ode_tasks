@@ -56,7 +56,7 @@ if __name__=='__main__':
     l.config.Box1Density1= 0.01
     l.config.Box1Density2= 0.5
     l.config.FixedBase= True
-    l.config.ObjectMode= 1  #0: None, 1: Box1, ...
+    l.config.ObjectMode= 2  #0: None, 1: Box1, 2: Chair1, ...
 
     #Reset to get state for plan
     sim.ResetConfig(t,l.config)

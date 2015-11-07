@@ -6,7 +6,7 @@ import struct
 
 
 class ODEConfig2(genpy.Message):
-  _md5sum = "2bf54e629d4441076827b3fb76e4f495"
+  _md5sum = "a58d7f4fb0b157b3cff3354b1e8c6953"
   _type = "ode1/ODEConfig2"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """int32 MaxContacts
@@ -24,7 +24,9 @@ float64 GBaseLenY
 float64 GBaseLenZ
 float64 GripLenY
 float64 GripLenZ
+
 int32 ObjectMode
+
 float64 Box1PosX
 float64 Box1PosY
 float64 Box1SizeX
@@ -32,6 +34,31 @@ float64 Box1SizeY
 float64 Box1SizeZ
 float64 Box1Density1
 float64 Box1Density2
+
+float64 Chair1PosX
+float64 Chair1PosY
+float64 Chair1BaseRad
+float64 Chair1BaseLen
+float64 Chair1Caster1Rad
+float64 Chair1Caster2Rad
+float64 Chair1Caster3Rad
+float64 Chair1Caster4Rad
+float64 Chair1CasterDX
+float64 Chair1CasterDY
+float64 Chair1Seat1Density
+float64 Chair1Seat1DX
+float64 Chair1Seat1DY
+float64 Chair1Seat1SizeX
+float64 Chair1Seat1SizeY
+float64 Chair1Seat1SizeZ
+float64 Chair1Seat2Density
+float64 Chair1Seat2DX
+float64 Chair1Seat2DY
+float64 Chair1Seat2SizeX
+float64 Chair1Seat2SizeY
+float64 Chair1Seat2SizeZ
+float64 Chair1Damping
+
 float64 TimeStep
 float64 Gravity
 bool EnableKeyEvent
@@ -40,8 +67,8 @@ float64 SliderFMax
 int32 ControlMode
 
 """
-  __slots__ = ['MaxContacts','JointNum','FixedBase','TotalArmLen','LinkRad','FSThick','FSSize','BaseLenX','BaseLenY','BaseLenZ','GBaseLenX','GBaseLenY','GBaseLenZ','GripLenY','GripLenZ','ObjectMode','Box1PosX','Box1PosY','Box1SizeX','Box1SizeY','Box1SizeZ','Box1Density1','Box1Density2','TimeStep','Gravity','EnableKeyEvent','HingeFMax','SliderFMax','ControlMode']
-  _slot_types = ['int32','float64','bool','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','int32','float64','float64','float64','float64','float64','float64','float64','float64','float64','bool','float64','float64','int32']
+  __slots__ = ['MaxContacts','JointNum','FixedBase','TotalArmLen','LinkRad','FSThick','FSSize','BaseLenX','BaseLenY','BaseLenZ','GBaseLenX','GBaseLenY','GBaseLenZ','GripLenY','GripLenZ','ObjectMode','Box1PosX','Box1PosY','Box1SizeX','Box1SizeY','Box1SizeZ','Box1Density1','Box1Density2','Chair1PosX','Chair1PosY','Chair1BaseRad','Chair1BaseLen','Chair1Caster1Rad','Chair1Caster2Rad','Chair1Caster3Rad','Chair1Caster4Rad','Chair1CasterDX','Chair1CasterDY','Chair1Seat1Density','Chair1Seat1DX','Chair1Seat1DY','Chair1Seat1SizeX','Chair1Seat1SizeY','Chair1Seat1SizeZ','Chair1Seat2Density','Chair1Seat2DX','Chair1Seat2DY','Chair1Seat2SizeX','Chair1Seat2SizeY','Chair1Seat2SizeZ','Chair1Damping','TimeStep','Gravity','EnableKeyEvent','HingeFMax','SliderFMax','ControlMode']
+  _slot_types = ['int32','float64','bool','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','int32','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','float64','bool','float64','float64','int32']
 
   def __init__(self, *args, **kwds):
     """
@@ -51,7 +78,7 @@ int32 ControlMode
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       MaxContacts,JointNum,FixedBase,TotalArmLen,LinkRad,FSThick,FSSize,BaseLenX,BaseLenY,BaseLenZ,GBaseLenX,GBaseLenY,GBaseLenZ,GripLenY,GripLenZ,ObjectMode,Box1PosX,Box1PosY,Box1SizeX,Box1SizeY,Box1SizeZ,Box1Density1,Box1Density2,TimeStep,Gravity,EnableKeyEvent,HingeFMax,SliderFMax,ControlMode
+       MaxContacts,JointNum,FixedBase,TotalArmLen,LinkRad,FSThick,FSSize,BaseLenX,BaseLenY,BaseLenZ,GBaseLenX,GBaseLenY,GBaseLenZ,GripLenY,GripLenZ,ObjectMode,Box1PosX,Box1PosY,Box1SizeX,Box1SizeY,Box1SizeZ,Box1Density1,Box1Density2,Chair1PosX,Chair1PosY,Chair1BaseRad,Chair1BaseLen,Chair1Caster1Rad,Chair1Caster2Rad,Chair1Caster3Rad,Chair1Caster4Rad,Chair1CasterDX,Chair1CasterDY,Chair1Seat1Density,Chair1Seat1DX,Chair1Seat1DY,Chair1Seat1SizeX,Chair1Seat1SizeY,Chair1Seat1SizeZ,Chair1Seat2Density,Chair1Seat2DX,Chair1Seat2DY,Chair1Seat2SizeX,Chair1Seat2SizeY,Chair1Seat2SizeZ,Chair1Damping,TimeStep,Gravity,EnableKeyEvent,HingeFMax,SliderFMax,ControlMode
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -106,6 +133,52 @@ int32 ControlMode
         self.Box1Density1 = 0.
       if self.Box1Density2 is None:
         self.Box1Density2 = 0.
+      if self.Chair1PosX is None:
+        self.Chair1PosX = 0.
+      if self.Chair1PosY is None:
+        self.Chair1PosY = 0.
+      if self.Chair1BaseRad is None:
+        self.Chair1BaseRad = 0.
+      if self.Chair1BaseLen is None:
+        self.Chair1BaseLen = 0.
+      if self.Chair1Caster1Rad is None:
+        self.Chair1Caster1Rad = 0.
+      if self.Chair1Caster2Rad is None:
+        self.Chair1Caster2Rad = 0.
+      if self.Chair1Caster3Rad is None:
+        self.Chair1Caster3Rad = 0.
+      if self.Chair1Caster4Rad is None:
+        self.Chair1Caster4Rad = 0.
+      if self.Chair1CasterDX is None:
+        self.Chair1CasterDX = 0.
+      if self.Chair1CasterDY is None:
+        self.Chair1CasterDY = 0.
+      if self.Chair1Seat1Density is None:
+        self.Chair1Seat1Density = 0.
+      if self.Chair1Seat1DX is None:
+        self.Chair1Seat1DX = 0.
+      if self.Chair1Seat1DY is None:
+        self.Chair1Seat1DY = 0.
+      if self.Chair1Seat1SizeX is None:
+        self.Chair1Seat1SizeX = 0.
+      if self.Chair1Seat1SizeY is None:
+        self.Chair1Seat1SizeY = 0.
+      if self.Chair1Seat1SizeZ is None:
+        self.Chair1Seat1SizeZ = 0.
+      if self.Chair1Seat2Density is None:
+        self.Chair1Seat2Density = 0.
+      if self.Chair1Seat2DX is None:
+        self.Chair1Seat2DX = 0.
+      if self.Chair1Seat2DY is None:
+        self.Chair1Seat2DY = 0.
+      if self.Chair1Seat2SizeX is None:
+        self.Chair1Seat2SizeX = 0.
+      if self.Chair1Seat2SizeY is None:
+        self.Chair1Seat2SizeY = 0.
+      if self.Chair1Seat2SizeZ is None:
+        self.Chair1Seat2SizeZ = 0.
+      if self.Chair1Damping is None:
+        self.Chair1Damping = 0.
       if self.TimeStep is None:
         self.TimeStep = 0.
       if self.Gravity is None:
@@ -142,6 +215,29 @@ int32 ControlMode
       self.Box1SizeZ = 0.
       self.Box1Density1 = 0.
       self.Box1Density2 = 0.
+      self.Chair1PosX = 0.
+      self.Chair1PosY = 0.
+      self.Chair1BaseRad = 0.
+      self.Chair1BaseLen = 0.
+      self.Chair1Caster1Rad = 0.
+      self.Chair1Caster2Rad = 0.
+      self.Chair1Caster3Rad = 0.
+      self.Chair1Caster4Rad = 0.
+      self.Chair1CasterDX = 0.
+      self.Chair1CasterDY = 0.
+      self.Chair1Seat1Density = 0.
+      self.Chair1Seat1DX = 0.
+      self.Chair1Seat1DY = 0.
+      self.Chair1Seat1SizeX = 0.
+      self.Chair1Seat1SizeY = 0.
+      self.Chair1Seat1SizeZ = 0.
+      self.Chair1Seat2Density = 0.
+      self.Chair1Seat2DX = 0.
+      self.Chair1Seat2DY = 0.
+      self.Chair1Seat2SizeX = 0.
+      self.Chair1Seat2SizeY = 0.
+      self.Chair1Seat2SizeZ = 0.
+      self.Chair1Damping = 0.
       self.TimeStep = 0.
       self.Gravity = 0.
       self.EnableKeyEvent = False
@@ -162,7 +258,7 @@ int32 ControlMode
     """
     try:
       _x = self
-      buff.write(_struct_idB12di9dB2di.pack(_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode))
+      buff.write(_struct_idB12di32dB2di.pack(_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.Chair1PosX, _x.Chair1PosY, _x.Chair1BaseRad, _x.Chair1BaseLen, _x.Chair1Caster1Rad, _x.Chair1Caster2Rad, _x.Chair1Caster3Rad, _x.Chair1Caster4Rad, _x.Chair1CasterDX, _x.Chair1CasterDY, _x.Chair1Seat1Density, _x.Chair1Seat1DX, _x.Chair1Seat1DY, _x.Chair1Seat1SizeX, _x.Chair1Seat1SizeY, _x.Chair1Seat1SizeZ, _x.Chair1Seat2Density, _x.Chair1Seat2DX, _x.Chair1Seat2DY, _x.Chair1Seat2SizeX, _x.Chair1Seat2SizeY, _x.Chair1Seat2SizeZ, _x.Chair1Damping, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -175,8 +271,8 @@ int32 ControlMode
       end = 0
       _x = self
       start = end
-      end += 206
-      (_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode,) = _struct_idB12di9dB2di.unpack(str[start:end])
+      end += 390
+      (_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.Chair1PosX, _x.Chair1PosY, _x.Chair1BaseRad, _x.Chair1BaseLen, _x.Chair1Caster1Rad, _x.Chair1Caster2Rad, _x.Chair1Caster3Rad, _x.Chair1Caster4Rad, _x.Chair1CasterDX, _x.Chair1CasterDY, _x.Chair1Seat1Density, _x.Chair1Seat1DX, _x.Chair1Seat1DY, _x.Chair1Seat1SizeX, _x.Chair1Seat1SizeY, _x.Chair1Seat1SizeZ, _x.Chair1Seat2Density, _x.Chair1Seat2DX, _x.Chair1Seat2DY, _x.Chair1Seat2SizeX, _x.Chair1Seat2SizeY, _x.Chair1Seat2SizeZ, _x.Chair1Damping, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode,) = _struct_idB12di32dB2di.unpack(str[start:end])
       self.FixedBase = bool(self.FixedBase)
       self.EnableKeyEvent = bool(self.EnableKeyEvent)
       return self
@@ -192,7 +288,7 @@ int32 ControlMode
     """
     try:
       _x = self
-      buff.write(_struct_idB12di9dB2di.pack(_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode))
+      buff.write(_struct_idB12di32dB2di.pack(_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.Chair1PosX, _x.Chair1PosY, _x.Chair1BaseRad, _x.Chair1BaseLen, _x.Chair1Caster1Rad, _x.Chair1Caster2Rad, _x.Chair1Caster3Rad, _x.Chair1Caster4Rad, _x.Chair1CasterDX, _x.Chair1CasterDY, _x.Chair1Seat1Density, _x.Chair1Seat1DX, _x.Chair1Seat1DY, _x.Chair1Seat1SizeX, _x.Chair1Seat1SizeY, _x.Chair1Seat1SizeZ, _x.Chair1Seat2Density, _x.Chair1Seat2DX, _x.Chair1Seat2DY, _x.Chair1Seat2SizeX, _x.Chair1Seat2SizeY, _x.Chair1Seat2SizeZ, _x.Chair1Damping, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -206,8 +302,8 @@ int32 ControlMode
       end = 0
       _x = self
       start = end
-      end += 206
-      (_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode,) = _struct_idB12di9dB2di.unpack(str[start:end])
+      end += 390
+      (_x.MaxContacts, _x.JointNum, _x.FixedBase, _x.TotalArmLen, _x.LinkRad, _x.FSThick, _x.FSSize, _x.BaseLenX, _x.BaseLenY, _x.BaseLenZ, _x.GBaseLenX, _x.GBaseLenY, _x.GBaseLenZ, _x.GripLenY, _x.GripLenZ, _x.ObjectMode, _x.Box1PosX, _x.Box1PosY, _x.Box1SizeX, _x.Box1SizeY, _x.Box1SizeZ, _x.Box1Density1, _x.Box1Density2, _x.Chair1PosX, _x.Chair1PosY, _x.Chair1BaseRad, _x.Chair1BaseLen, _x.Chair1Caster1Rad, _x.Chair1Caster2Rad, _x.Chair1Caster3Rad, _x.Chair1Caster4Rad, _x.Chair1CasterDX, _x.Chair1CasterDY, _x.Chair1Seat1Density, _x.Chair1Seat1DX, _x.Chair1Seat1DY, _x.Chair1Seat1SizeX, _x.Chair1Seat1SizeY, _x.Chair1Seat1SizeZ, _x.Chair1Seat2Density, _x.Chair1Seat2DX, _x.Chair1Seat2DY, _x.Chair1Seat2SizeX, _x.Chair1Seat2SizeY, _x.Chair1Seat2SizeZ, _x.Chair1Damping, _x.TimeStep, _x.Gravity, _x.EnableKeyEvent, _x.HingeFMax, _x.SliderFMax, _x.ControlMode,) = _struct_idB12di32dB2di.unpack(str[start:end])
       self.FixedBase = bool(self.FixedBase)
       self.EnableKeyEvent = bool(self.EnableKeyEvent)
       return self
@@ -215,4 +311,4 @@ int32 ControlMode
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_idB12di9dB2di = struct.Struct("<idB12di9dB2di")
+_struct_idB12di32dB2di = struct.Struct("<idB12di32dB2di")

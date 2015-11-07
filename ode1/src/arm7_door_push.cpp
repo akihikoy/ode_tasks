@@ -37,7 +37,9 @@ double GBaseLenY(0.16);
 double GBaseLenZ(0.05);
 double GripLenY(0.02);
 double GripLenZ(0.12);
-int ObjectMode(0);  // 0: None, 1: Box1, ...
+
+int ObjectMode(2);  // ObjectMode: 0: None, 1: Box1, 2: Chair1 ...
+
 double Box1PosX(0.7);
 double Box1PosY(0.0);
 double Box1SizeX(0.5);
@@ -45,6 +47,31 @@ double Box1SizeY(0.6);
 double Box1SizeZ(0.4);
 double Box1Density1(1.0);
 double Box1Density2(50.0);
+
+double Chair1PosX(0.6);
+double Chair1PosY(0.0);
+double Chair1BaseRad(0.2);
+double Chair1BaseLen(0.10);
+double Chair1Caster1Rad(0.02);
+double Chair1Caster2Rad(0.02);
+double Chair1Caster3Rad(0.02);
+double Chair1Caster4Rad(0.02);
+double Chair1CasterDX(0.1);
+double Chair1CasterDY(0.1);
+double Chair1Seat1Density(1.0);
+double Chair1Seat1DX(0.0);
+double Chair1Seat1DY(-0.05);
+double Chair1Seat1SizeX(0.5);
+double Chair1Seat1SizeY(0.6);
+double Chair1Seat1SizeZ(0.12);
+double Chair1Seat2Density(1.0);
+double Chair1Seat2DX(0.0);
+double Chair1Seat2DY(0.19);
+double Chair1Seat2SizeX(0.5);
+double Chair1Seat2SizeY(0.12);
+double Chair1Seat2SizeZ(0.4);
+double Chair1Damping(0.001);
+
 double TimeStep(0.04);
 double Gravity(-1.0);
 bool   EnableKeyEvent(true);  // If we use a default key events.
@@ -201,18 +228,7 @@ void TDynRobot::Draw()
 
 /*override*/void TJointChain1::Create(dWorldID world, dSpaceID space)
 {
-  body_.clear();
-  link_b_.clear();
-  link_ca_.clear();
-  link_cy_.clear();
-  link_sp_.clear();
-  link_tm_.clear();
-  joint_b_.clear();
-  joint_h_.clear();
-  joint_h2_.clear();
-  joint_s_.clear();
-  joint_f_.clear();
-  feedback_.clear();
+  clear();
 
   body_.resize(
       /*base,gripper:*/4
@@ -352,18 +368,7 @@ void TDynRobot::Draw()
 
 /*override*/void TObjBox1::Create(dWorldID world, dSpaceID space)
 {
-  body_.clear();
-  link_b_.clear();
-  link_ca_.clear();
-  link_cy_.clear();
-  link_sp_.clear();
-  link_tm_.clear();
-  joint_b_.clear();
-  joint_h_.clear();
-  joint_h2_.clear();
-  joint_s_.clear();
-  joint_f_.clear();
-  feedback_.clear();
+  clear();
 
   body_.resize(2);
   link_b_.resize(2);
@@ -402,6 +407,167 @@ void TDynRobot::Draw()
 }
 //-------------------------------------------------------------------------------------------
 
+//===========================================================================================
+// class TObjChair1 : public TDynRobot
+//===========================================================================================
+
+template <typename t_in>
+t_in MaxIn4(const t_in &x1, const t_in &x2, const t_in &x3, const t_in &x4)
+{
+  t_in xres(x1);
+  if(x2>xres)  xres= x2;
+  if(x3>xres)  xres= x3;
+  if(x4>xres)  xres= x4;
+  return xres;
+}
+//-------------------------------------------------------------------------------------------
+
+/*override*/void TObjChair1::Create(dWorldID world, dSpaceID space)
+{
+  clear();
+
+  body_.resize(/*base:*/1+/*seat:*/2+/*caster:*/4);
+  link_cy_.resize(1);  // base
+  link_b_.resize(2);  // seat
+  link_sp_.resize(4);  // caster
+  int ib(0);  // body counter
+
+  double caster_rad_max= MaxIn4(Chair1Caster1Rad, Chair1Caster2Rad, Chair1Caster3Rad, Chair1Caster4Rad);
+  {
+    int i(0);
+    link_cy_[i].create(space,/*radius*/Chair1BaseRad,/*length*/Chair1BaseLen);
+    body_[ib].create(world);
+    body_[ib].setPosition(Chair1PosX, Chair1PosY, 2.0*caster_rad_max+0.5*Chair1BaseLen);
+    dMass m;
+    // m.setCylinder(1.0,/*z*/3,/*radius*/Chair1BaseRad,/*length*/Chair1BaseLen);
+    dMassSetCylinder(&m,1.0,/*z*/3,/*radius*/Chair1BaseRad,/*length*/Chair1BaseLen);
+    body_[ib].setMass(&m);
+    link_cy_[i].setBody(body_[ib]);
+    ++ib;
+  }
+
+  dReal box_size_pos[2][7]={
+      /* 0*/{Chair1Seat1Density, Chair1PosX+Chair1Seat1DX,Chair1PosY+Chair1Seat1DY,2.0*caster_rad_max+Chair1BaseLen+0.5*Chair1Seat1SizeZ,  Chair1Seat1SizeX,Chair1Seat1SizeY,Chair1Seat1SizeZ},
+      /* 1*/{Chair1Seat2Density, Chair1PosX+Chair1Seat2DX,Chair1PosY+Chair1Seat2DY,2.0*caster_rad_max+Chair1BaseLen+Chair1Seat1SizeZ+0.5*Chair1Seat2SizeZ,  Chair1Seat2SizeX,Chair1Seat2SizeY,Chair1Seat2SizeZ}
+    };
+  for(int i(0); i<2; ++i,++ib)
+  {
+    dReal density(box_size_pos[i][0]), *pos(box_size_pos[i]+1), *size(box_size_pos[i]+4);
+    body_[ib].create(world);
+    body_[ib].setPosition(pos[0],pos[1],pos[2]);
+    dMass m;
+    m.setBox(1.0,size[0],size[1],size[2]);
+    // m.adjust(mass);
+    body_[ib].setMass(&m);
+    link_b_[i].create(space,size[0],size[1],size[2]);
+    link_b_[i].setBody(body_[ib]);
+  }
+
+  dReal sp_rad_pos[4][4]={
+      /* 0*/{Chair1Caster1Rad, Chair1PosX+Chair1CasterDX,Chair1PosY+Chair1CasterDY,2.0*caster_rad_max-Chair1Caster1Rad},
+      /* 1*/{Chair1Caster2Rad, Chair1PosX-Chair1CasterDX,Chair1PosY+Chair1CasterDY,2.0*caster_rad_max-Chair1Caster2Rad},
+      /* 2*/{Chair1Caster3Rad, Chair1PosX-Chair1CasterDX,Chair1PosY-Chair1CasterDY,2.0*caster_rad_max-Chair1Caster3Rad},
+      /* 3*/{Chair1Caster4Rad, Chair1PosX+Chair1CasterDX,Chair1PosY-Chair1CasterDY,2.0*caster_rad_max-Chair1Caster4Rad},
+    };
+  for(int i(0); i<4; ++i,++ib)
+  {
+    dReal *pos(sp_rad_pos[i]+1);
+    link_sp_[i].create(space, sp_rad_pos[i][0]);
+    body_[ib].create(world);
+    body_[ib].setPosition(pos[0],pos[1],pos[2]);
+    dMass m;
+    m.setSphere(1.0, sp_rad_pos[i][0]);
+    body_[ib].setMass(&m);
+    link_sp_[i].setBody(body_[ib]);
+  }
+
+  joint_f_.resize(5);
+  dBodyID fixed_idxs[5][2]={
+      // casters:
+      /* 0*/{body_[3],body_[0]},
+      /* 1*/{body_[4],body_[0]},
+      /* 2*/{body_[5],body_[0]},
+      /* 3*/{body_[6],body_[0]},
+      // seat:
+      /* 4*/{body_[1],body_[2]}
+    };
+  for(int j(0),j_end(joint_f_.size()); j<j_end; ++j)
+  {
+    joint_f_[j].create(world);
+    joint_f_[j].attach(fixed_idxs[j][0],fixed_idxs[j][1]);
+    joint_f_[j].set();
+  }
+
+  joint_h_.resize(1);
+  {
+    int j(0);
+    joint_h_[j].create(world);
+    joint_h_[j].attach(body_[0],body_[1]);
+    joint_h_[j].setAnchor(Chair1PosX, Chair1PosY, 2.0*caster_rad_max+Chair1BaseLen);
+    joint_h_[j].setAxis(0.0,0.0,1.0);
+    joint_h_[j].setParam(dParamFMax,0.0);
+  }
+}
+//-------------------------------------------------------------------------------------------
+
+
+//===========================================================================================
+// class TObjDoor1 : public TDynRobot
+//===========================================================================================
+#if 0
+/*override*/void TObjDoor1::Create(dWorldID world, dSpaceID space)
+{
+  clear();
+
+  body_.resize(/*door:*/1+/*walls:*/2+/*stopper:*/1+/*knob:*/2);
+  link_b_.resize(/*door:*/1+/*walls:*/2+/*stopper:*/1);
+  link_cy_.resize(/*knob:*/2);
+  int ib(0);  // body counter
+
+double Door1X(0.7);
+double Door1Y(0.0);
+double Door1SizeX(0.05);
+double Door1SizeY(0.7);
+double Door1SizeZ(1.5);
+double Door1Wall1DX(0.05);
+double Door1Wall1DY(0.0);
+double Door1Wall2DX(0.05);
+double Door1Wall2DY(0.05);
+double Door1WallSizeX(0.05);
+double Door1WallSizeY(1.6);
+double Door1WallSizeZ(1.6);
+
+  dReal box_size_pos[4][6]={
+      // door:
+      /* 0*/{Door1X,Door1Y,0.5*Door1SizeZ,  Door1SizeX,Door1SizeY,Door1SizeZ},
+      // wall-1, wall-2:
+      /* 1*/{Door1X+Door1Wall1DX,Door1Y+Door1Wall1DY,0.5*Door1WallSizeZ, 0.0,0.0,h_grip_begin+0.5*GBaseLenZ},
+      /* 2*/{GBaseLenX,GripLenY,GripLenZ,   0.0,+0.5*(GBaseLenY-GripLenY),h_grip_begin+GBaseLenZ+0.5*GripLenZ},
+      // stopper:
+      /* 3*/{GBaseLenX,GripLenY,GripLenZ,   0.0,-0.5*(GBaseLenY-GripLenY),h_grip_begin+GBaseLenZ+0.5*GripLenZ},
+    };
+  for(int i(0); i<12; ++i,++ib)
+  {
+    dReal *size(box_size_pos[i]), *pos(box_size_pos[i]+3);
+    body_[ib].create(world);
+    body_[ib].setPosition(pos[0],pos[1],pos[2]);
+    dMass m;
+    m.setBox(1.0,size[0],size[1],size[2]);
+    // m.adjust(mass);
+    body_[ib].setMass(&m);
+    link_b_[i].create(space,size[0],size[1],size[2]);
+    link_b_[i].setBody(body_[ib]);
+  }
+
+  joint_f_.resize(1);
+
+  joint_f_[0].create(world);
+  joint_f_[0].attach(body_[0],body_[1]);
+  joint_f_[0].set();
+}
+//-------------------------------------------------------------------------------------------
+#endif
+
 
 //===========================================================================================
 // class TEnvironment
@@ -415,8 +581,9 @@ void TEnvironment::Create()
   plane_.create(space_,0,0,1,0);
 
   chain_.Create(world_,space_);
-  // ObjectMode: 0: None, 1: Box1, ...
+  // ObjectMode: 0: None, 1: Box1, 2: Chair1 ...
   if(ObjectMode==1)  box1_.Create(world_,space_);
+  if(ObjectMode==2)  chair1_.Create(world_,space_);
   // geom_.Create(world_,space_);
 
   time_= 0.0;
@@ -444,8 +611,9 @@ void TEnvironment::Draw()
   if(Running)  EDrawCallback();
 
   chain_.Draw();
-  // ObjectMode: 0: None, 1: Box1, ...
+  // ObjectMode: 0: None, 1: Box1, 2: Chair1 ...
   if(ObjectMode==1)  box1_.Draw();
+  if(ObjectMode==2)  chair1_.Draw();
   // geom_.Draw();
 }
 //-------------------------------------------------------------------------------------------
@@ -485,6 +653,13 @@ void TEnvironment::ControlCallback(const double &time_step)
   std::cerr<<"F= "<<joint_feedback1.f1[0]<<", "<<joint_feedback1.f1[1]<<", "<<joint_feedback1.f1[2]<<std::endl;
   std::cerr<<"T= "<<joint_feedback1.t1[0]<<", "<<joint_feedback1.t1[1]<<", "<<joint_feedback1.t1[2]<<std::endl;
   //*/
+
+  // ObjectMode: 0: None, 1: Box1, 2: Chair1 ...
+  if(ObjectMode==2)
+  {
+    chair1_.AddTorqueH(0, -Chair1Damping*chair1_.GetAngVelH(0));
+  }
+
 }
 //-------------------------------------------------------------------------------------------
 
@@ -502,13 +677,18 @@ void TEnvironment::EDrawCallback()
   for(int i(0); i<12+JointNum+1; ++i)
     sensors_.Masses[i]= chain_.Body(i).getMass().mass;
 
-  // ObjectMode: 0: None, 1: Box1, ...
+  // ObjectMode: 0: None, 1: Box1, 2: Chair1 ...
   if(ObjectMode==1)
   {
     ODEBodyToX(box1_.Body(0), sensors_.Box1X.begin());
     sensors_.Box1X[0]= 0.5*(sensors_.Box1X[0]+box1_.Body(1).getPosition()[0]);
     sensors_.Box1X[1]= 0.5*(sensors_.Box1X[1]+box1_.Body(1).getPosition()[1]);
     sensors_.Box1X[2]= 0.5*(sensors_.Box1X[2]+box1_.Body(1).getPosition()[2]);
+  }
+  if(ObjectMode==2)
+  {
+    for(int i(0); i<3; ++i)
+      ODEBodyToX(chair1_.Body(i), sensors_.Chair1X.begin()+7*i);
   }
 
   sensors_.Time= time_;

@@ -69,7 +69,9 @@ extern double GBaseLenY;
 extern double GBaseLenZ;
 extern double GripLenY;
 extern double GripLenZ;
+
 extern int ObjectMode;
+
 extern double Box1PosX;
 extern double Box1PosY;
 extern double Box1SizeX;
@@ -77,6 +79,31 @@ extern double Box1SizeY;
 extern double Box1SizeZ;
 extern double Box1Density1;
 extern double Box1Density2;
+
+extern double Chair1PosX         ;
+extern double Chair1PosY         ;
+extern double Chair1BaseRad      ;
+extern double Chair1BaseLen      ;
+extern double Chair1Caster1Rad   ;
+extern double Chair1Caster2Rad   ;
+extern double Chair1Caster3Rad   ;
+extern double Chair1Caster4Rad   ;
+extern double Chair1CasterDX     ;
+extern double Chair1CasterDY     ;
+extern double Chair1Seat1Density ;
+extern double Chair1Seat1DX      ;
+extern double Chair1Seat1DY      ;
+extern double Chair1Seat1SizeX   ;
+extern double Chair1Seat1SizeY   ;
+extern double Chair1Seat1SizeZ   ;
+extern double Chair1Seat2Density ;
+extern double Chair1Seat2DX      ;
+extern double Chair1Seat2DY      ;
+extern double Chair1Seat2SizeX   ;
+extern double Chair1Seat2SizeY   ;
+extern double Chair1Seat2SizeZ   ;
+extern double Chair1Damping      ;
+
 extern double TimeStep;
 extern double Gravity;
 extern bool   EnableKeyEvent;
@@ -216,6 +243,23 @@ protected:
   std::vector<TNCSliderJoint> joint_s_;
   std::vector<TNCFixedJoint> joint_f_;
   std::vector<dJointFeedback> feedback_;
+
+  // Clear the elements.
+  void clear(void)
+    {
+      body_.clear();
+      link_b_.clear();
+      link_ca_.clear();
+      link_cy_.clear();
+      link_sp_.clear();
+      link_tm_.clear();
+      joint_b_.clear();
+      joint_h_.clear();
+      joint_h2_.clear();
+      joint_s_.clear();
+      joint_f_.clear();
+      feedback_.clear();
+    }
 };
 //-------------------------------------------------------------------------------------------
 
@@ -238,6 +282,26 @@ public:
 //-------------------------------------------------------------------------------------------
 
 //===========================================================================================
+class TObjChair1 : public TDynRobot
+//===========================================================================================
+{
+public:
+  override void Create(dWorldID world, dSpaceID space);
+};
+//-------------------------------------------------------------------------------------------
+
+/*
+//===========================================================================================
+class TObjDoor1 : public TDynRobot
+//===========================================================================================
+{
+public:
+  override void Create(dWorldID world, dSpaceID space);
+};
+//-------------------------------------------------------------------------------------------
+*/
+
+//===========================================================================================
 struct TSensors2
 //===========================================================================================
 {
@@ -246,6 +310,7 @@ struct TSensors2
   std::vector<double> Forces;  // Force/torque (fx,fy,fz,tx,ty,tz) of sensors and joints; [6]*(8+JointNum)
   std::vector<double> Masses;  // Masses of links; [12+JointNum+1]
   std::vector<double> Box1X;  // Pose (x,y,z,qx,qy,qz,qw) of box1; [7]
+  std::vector<double> Chair1X;  // Pose (x,y,z,qx,qy,qz,qw) of links (base, seat-1, seat-2) of chair1; [7]*3
 
   double Time;  // Simulation time
 
@@ -256,6 +321,7 @@ struct TSensors2
       Forces.clear();
       Masses.clear();
       Box1X.clear();
+      Chair1X.clear();
       SetZeros(-1);
     }
 
@@ -268,6 +334,7 @@ struct TSensors2
         Forces.resize(6*(8+num_joints));
         Masses.resize(12+num_joints+1);
         Box1X.resize(7);
+        Chair1X.resize(7*3);
       }
       #define SETZERO(vec)       \
         for(std::vector<double>::iterator itr(vec.begin()),itr_end(vec.end());  \
@@ -278,6 +345,7 @@ struct TSensors2
       SETZERO( Forces       )
       SETZERO( Masses       )
       SETZERO( Box1X        )
+      SETZERO( Chair1X      )
       Time= 0.0;
       #undef SETZERO
     }
@@ -323,6 +391,8 @@ private:
 
   TJointChain1     chain_;
   TObjBox1         box1_;
+  TObjChair1       chair1_;
+  // TObjDoor1        door1_;
   // TGeom1    geom_;
   dPlane    plane_;
 

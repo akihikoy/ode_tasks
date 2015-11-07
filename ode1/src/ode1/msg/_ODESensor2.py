@@ -6,7 +6,7 @@ import struct
 
 
 class ODESensor2(genpy.Message):
-  _md5sum = "c7b01b1aa3f1520ef797252f66d2f811"
+  _md5sum = "01e6725ece4dde9153c7b37e9f180ac0"
   _type = "ode1/ODESensor2"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """float64[] joint_angles
@@ -23,12 +23,15 @@ float64[] masses
 # Pose (x,y,z,qx,qy,qz,qw) of box1; [7]
 float64[] box1_x
 
+# Pose (x,y,z,qx,qy,qz,qw) of links (base, seat-1, seat-2) of chair1; [7]*3
+float64[] chair1_x
+
 # Simulation time
 float64 time
 
 """
-  __slots__ = ['joint_angles','link_x','forces','masses','box1_x','time']
-  _slot_types = ['float64[]','float64[]','float64[]','float64[]','float64[]','float64']
+  __slots__ = ['joint_angles','link_x','forces','masses','box1_x','chair1_x','time']
+  _slot_types = ['float64[]','float64[]','float64[]','float64[]','float64[]','float64[]','float64']
 
   def __init__(self, *args, **kwds):
     """
@@ -38,7 +41,7 @@ float64 time
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       joint_angles,link_x,forces,masses,box1_x,time
+       joint_angles,link_x,forces,masses,box1_x,chair1_x,time
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -57,6 +60,8 @@ float64 time
         self.masses = []
       if self.box1_x is None:
         self.box1_x = []
+      if self.chair1_x is None:
+        self.chair1_x = []
       if self.time is None:
         self.time = 0.
     else:
@@ -65,6 +70,7 @@ float64 time
       self.forces = []
       self.masses = []
       self.box1_x = []
+      self.chair1_x = []
       self.time = 0.
 
   def _get_types(self):
@@ -99,6 +105,10 @@ float64 time
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(struct.pack(pattern, *self.box1_x))
+      length = len(self.chair1_x)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(struct.pack(pattern, *self.chair1_x))
       buff.write(_struct_d.pack(self.time))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
@@ -146,6 +156,13 @@ float64 time
       end += struct.calcsize(pattern)
       self.box1_x = struct.unpack(pattern, str[start:end])
       start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.chair1_x = struct.unpack(pattern, str[start:end])
+      start = end
       end += 8
       (self.time,) = _struct_d.unpack(str[start:end])
       return self
@@ -180,6 +197,10 @@ float64 time
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(self.box1_x.tostring())
+      length = len(self.chair1_x)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(self.chair1_x.tostring())
       buff.write(_struct_d.pack(self.time))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
@@ -227,6 +248,13 @@ float64 time
       start = end
       end += struct.calcsize(pattern)
       self.box1_x = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.chair1_x = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       start = end
       end += 8
       (self.time,) = _struct_d.unpack(str[start:end])

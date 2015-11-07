@@ -12,5 +12,8 @@ float64[] masses
 # Pose (x,y,z,qx,qy,qz,qw) of box1; [7]
 float64[] box1_x
 
+# Pose (x,y,z,qx,qy,qz,qw) of links (base, seat-1, seat-2) of chair1; [7]*3
+float64[] chair1_x
+
 # Simulation time
 float64 time

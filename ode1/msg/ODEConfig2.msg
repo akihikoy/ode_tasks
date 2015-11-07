@@ -13,7 +13,9 @@ float64 GBaseLenY
 float64 GBaseLenZ
 float64 GripLenY
 float64 GripLenZ
+
 int32 ObjectMode
+
 float64 Box1PosX
 float64 Box1PosY
 float64 Box1SizeX
@@ -21,6 +23,31 @@ float64 Box1SizeY
 float64 Box1SizeZ
 float64 Box1Density1
 float64 Box1Density2
+
+float64 Chair1PosX
+float64 Chair1PosY
+float64 Chair1BaseRad
+float64 Chair1BaseLen
+float64 Chair1Caster1Rad
+float64 Chair1Caster2Rad
+float64 Chair1Caster3Rad
+float64 Chair1Caster4Rad
+float64 Chair1CasterDX
+float64 Chair1CasterDY
+float64 Chair1Seat1Density
+float64 Chair1Seat1DX
+float64 Chair1Seat1DY
+float64 Chair1Seat1SizeX
+float64 Chair1Seat1SizeY
+float64 Chair1Seat1SizeZ
+float64 Chair1Seat2Density
+float64 Chair1Seat2DX
+float64 Chair1Seat2DY
+float64 Chair1Seat2SizeX
+float64 Chair1Seat2SizeY
+float64 Chair1Seat2SizeZ
+float64 Chair1Damping
+
 float64 TimeStep
 float64 Gravity
 bool EnableKeyEvent
