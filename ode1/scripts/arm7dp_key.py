@@ -52,7 +52,8 @@ if __name__=='__main__':
     print 'Current config=',l.config
 
     #Setup config
-    l.config.JointNum= 8
+    l.config.JointNum= 20
+    l.config.TotalArmLen= 1.0
     l.config.Box1Density1= 0.01
     l.config.Box1Density2= 0.5
     l.config.FixedBase= True
@@ -72,7 +73,7 @@ if __name__=='__main__':
     l.keyevent_callback= lambda cmd:KeyEventCallback(t,l,cmd)
     ik_param= sim.TIKParam()
     ik_param.Tolerance= 1.0e-2
-    ik_param.MaxIteration= 2000
+    #ik_param.MaxIteration= 200
 
     while l.running:
       q,ik_st= sim.IK(l, x_trg=l.x_trg, param=ik_param, with_st=True)

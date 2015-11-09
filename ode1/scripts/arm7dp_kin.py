@@ -74,11 +74,12 @@ def FK(l, q, x_ext=None, with_J=False, viz=None):
 
 class TIKParam:
   def __init__(self):
-    self.StepSize= 0.1
+    self.StepSize= 0.2
     self.Tolerance= 1.e-3
-    self.MaxIteration= 1000
-    self.PoseErrWeight= 0.5
+    self.MaxIteration= 200
+    self.PoseErrWeight= 0.2
     self.SearchNoise= 1.0e-4
+    self.QDiffPenalty= 1.0e-3
 class TIKStatus:
   def __init__(self):
     self.IsSolved= None
@@ -116,7 +117,9 @@ def IK(l, x_trg, x_ext=None, start_angles=None, param=TIKParam(), with_st=False)
     if Norm(err) < param.Tolerance:
       is_solved= True
       break
-    q+= param.StepSize*np.dot(la.pinv(J),err) + RandVec(q.shape[0],-param.SearchNoise,param.SearchNoise)
+    q+= param.StepSize*np.dot(la.pinv(J),err)
+    q+= param.QDiffPenalty*(start_angles-q)  #Penalizing angles change
+    q+= RandVec(q.shape[0],-param.SearchNoise,param.SearchNoise)  #Search noise to avoid singularity
     q= np.array(map(AngleMod1,q))
     #print Norm(err), Norm(err_p), Norm(err_R), '; ', q.tolist()
   q= np.array(map(AngleMod1,q))
